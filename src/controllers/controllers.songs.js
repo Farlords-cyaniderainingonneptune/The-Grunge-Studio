@@ -66,7 +66,7 @@ const { offset, limit } = Helpers.paginationOffsetLimit(query);
 export const viewSong = async(req, res)=>{
   try{
     const userId= req.user.user_id;
-    const{song_id}=req.params.song_id;
+    const{song_id}=req.query;
     if(!song_id){
       return res.status(400).json({
         status:'error',
@@ -76,7 +76,7 @@ export const viewSong = async(req, res)=>{
     };
     const userExists= await authModel.checkIfUserActivelyExistsByUserId(userId);
     if(!userExists){
-      return res.status(401)({
+      return res.status(401).json({
         status:'error',
         code:401,
         message:'user does not exist'
@@ -84,14 +84,14 @@ export const viewSong = async(req, res)=>{
     };
     const songExists= await songModel.songExistsById(song_id);
     if(!songExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
       });
     }
     const viewSong= await songModel.viewSong(song_id)
-     return res.status(200)({
+     return res.status(200).json({
         status:'success',
         code:200,
         data:viewSong
@@ -126,7 +126,7 @@ export const searchSongs = async(req,res)=>{
     }
     const songExists= await songModel.songExistsByName(song_title);
     if(!songExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
@@ -134,7 +134,7 @@ export const searchSongs = async(req,res)=>{
     }
 
     const viewSong= await songModel.search(song_title)
-     return res.status(200)({
+     return res.status(200).json({
         status:'success',
         code:200,
         data:viewSong
@@ -160,7 +160,7 @@ export const genreFilter = async(req,res)=>{
     }
     const genreExists= await songModel.songExistsByGenre(genre);
     if(!genreExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
@@ -168,7 +168,7 @@ export const genreFilter = async(req,res)=>{
     }
 
     const viewSongs= await songModel.genre(genre)
-     return res.status(200)({
+     return res.status(200).json({
         status:'success',
         code:200,
         data:viewSongs
@@ -221,19 +221,12 @@ export const addSong= async(req,res)=>{
 export const editSong = async(req,res)=>{
   try{
     const adminId= req.user.user_id; 
-    const {song_id}= req.params.song_id;
-    const {song_title, genre_id, artiste, year_of_release}= req.body
-    if(!song_id){
-       return res.status(401)({
-        status:'error',
-        code:401,
-        message:'No id inputed'
-      });
-    }
+    const song_id= req.params.song_id;
+    const {song_title, genre_id, artiste, year_of_release}= req.body;
     if(!song_title || ! genre_id || ! artiste){
     const songExists= await songModel.songExistsById(song_id);
     if(!songExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
@@ -247,9 +240,16 @@ export const editSong = async(req,res)=>{
             data: defaultSong
         })
     };
+    if(!song_id){
+       return res.status(401).json({
+        status:'error',
+        code:401,
+        message:'No id inputed'
+      });
+    }
      const superAdmin = await authModel.checkIfSuperAdmin(adminId)
     const actualAdmin = await authModel.checkIfActualAdmin(adminId)
-     if (!actualAdmin && superAdmin){
+     if (!actualAdmin && ! superAdmin){
       return res.status(400).json({
                 status:'error',
                 code:400,
@@ -258,13 +258,13 @@ export const editSong = async(req,res)=>{
      }
     const songExists= await songModel.songExistsById(song_id);
     if(!songExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
       });
     };
-    const updateSong = await songModel.updateSong(song_title, genre_id, artiste, year_of_release, adminId)
+    const updateSong = await songModel.updateSong(song_id, song_title, genre_id, artiste, year_of_release, adminId)
     if(!updateSong){
       return res.status(400).json({
             status: 'error',
@@ -289,14 +289,8 @@ export const editSong = async(req,res)=>{
 export const deleteSong = async(req,res)=>{
   try{
     const adminId= req.user.user_id; 
-    const {song_id}= req.params.song_id;
-    if(!song_id){
-       return res.status(401)({
-        status:'error',
-        code:401,
-        message:'No id inputed'
-      });
-    }
+    const song_id= req.params.song_id;
+  
     const superAdmin = await authModel.checkIfSuperAdmin(adminId)
      const actualAdmin = await authModel.checkIfActualAdmin(adminId)
      if (!actualAdmin && !superAdmin){
@@ -306,22 +300,28 @@ export const deleteSong = async(req,res)=>{
                 message:'Not an admin'
             })
      }
+    //  if(!song_id){
+    //    return res.status(401).json({
+    //     status:'error',
+    //     code:401,
+    //     message:'No id inputed'
+    //   });
+    // }
     const songExists= await songModel.songExistsById(song_id);
     if(!songExists){
-       return res.status(401)({
+       return res.status(401).json({
         status:'error',
         code:401,
         message:'song does not exist'
       });
-    };
+    }
     const deleteSong = await songModel.deleteSong(song_id)
-    if(deleteSong){
-      return res.status(200)({
+      return res.status(200).json({
         status:'error',
         code:200,
         message:'song successfully deleted'
       });
-    }
+
   }catch(err){
     return res.status(500).json({
             status: 'error',

@@ -3,10 +3,10 @@ import * as songController from '../controllers/controllers.songs.js';
 import * as authMiddleware from '../middlewares/middlewares.auth.js';
 const router = Router();
 
-router.get('/songs',
+router.get('/all',
     songController.songList
 );
-router.get('/view_songs/:song_id',
+router.get('/view_song',
     authMiddleware.verifyToken,
     songController.viewSong
 );
@@ -16,15 +16,15 @@ router.get('/filter_genre',
 router.get('/search',
     songController.searchSongs
 );
-router.post('/song',
+router.post('/new_song',
     authMiddleware.verifyToken,
     songController.addSong
 );
-router.patch('/songs/:song_id',
+router.patch('/song/:song_id',
     authMiddleware.verifyToken,
     songController.editSong
 );
-router.delete('/songs/:song_id',
+router.delete('/song/:song_id',
     authMiddleware.verifyToken,
     songController.deleteSong
 );

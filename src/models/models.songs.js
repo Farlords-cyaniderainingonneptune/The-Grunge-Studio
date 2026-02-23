@@ -14,7 +14,7 @@ export const genre= async(genre_name)=>{
     return genreSearch;
 };
 export const search= async(title)=>{
-    const genreSearch = await db.many(queries.filterByGenre,[title]);
+    const genreSearch = await db.many(queries.searchSongs,[title]);
     return genreSearch;
 };
 export const songCount= async()=>{
@@ -30,15 +30,15 @@ export const songExistsById = async(song_id)=>{
     return songExists;
 };
 export const songExistsByGenre = async(genre_name)=>{
-    const songExists= await db.oneOrNone(queries.checkIfSongExistsByGenre,[genre_name]);
+    const songExists= await db.any(queries.checkIfSongExistsByGenre,[genre_name]);
     return songExists;
 };
 export const addSong = async(song_title, genre_id, artiste, year_of_release, contributor)=>{
     const newSong= await db.oneOrNone(queries.addSong,[song_title, genre_id, artiste, year_of_release, contributor]);
     return newSong;
 };
-export const setDefault = async(song_id)=>{
-    const newSong= await db.oneOrNone(queries.setDefault,[song_id]);
+export const setDefault = async(song_id, song_title, genre_id, artiste, year_of_release, contributor)=>{
+    const newSong= await db.oneOrNone(queries.setDefault,[song_id, song_title, genre_id, artiste, year_of_release, contributor]);
     return newSong;
 };
 export const deleteSong = async(song_id)=>{
