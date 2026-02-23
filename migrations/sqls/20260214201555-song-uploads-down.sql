@@ -1,0 +1,2 @@
+DROP TYPE file_type CASCADE;
+DROP TABLE song_upload CASCADE

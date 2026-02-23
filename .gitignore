@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Local Environment Secrets
+.env
+
+# Temporary Uploads
+# src/mediaUpload/*
+# !src/mediaUpload/.gitkeep
