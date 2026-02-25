@@ -2,10 +2,9 @@ import * as authModel from '../models/models.auth.js';
 import * as Hash from '../utils/utils.hash.js';
 import * as Helpers from '../utils/utils.helpers.js';
 import sendMail from '../services/email.js';
+
 export const forgotPassword = async(req, res) => {
     const {email, username} = req.body;
- 
-
     if (!email || !username){
          return res.status(422).json({
             status: 'error',
@@ -51,7 +50,7 @@ const verificationCode = Helpers.generateVerificationCode(6);
 const verificationCodeDuration = 10; // in minutes
 const verificationCodeExpireAt= new Date(Date.now() + verificationCodeDuration * 60 * 1000);
 
-const Content =`Hello ${full_name}, kindly reset your password using this OTP: ${verificationCode}. This OTP will expire in ${verificationCodeDuration} mins`
+const Content = `Hello ${full_name}, kindly reset your password using this OTP: ${verificationCode}. This OTP will expire in ${verificationCodeDuration} mins`
     await sendMail(email,'Forgot Password', Content);
 const updatedUser = await authModel.updateUserVerificationCode(email, verificationCode, verificationCodeExpireAt)
 
@@ -63,7 +62,7 @@ const updatedUser = await authModel.updateUserVerificationCode(email, verificati
     })
 };
 
-export const resetPassword = async(req,res)=>{
+export const resetPassword = async(req, res)=>{
     const {email, new_password, rewrite_newpassword, verificationCode} = req.body;
     if (!email || !new_password || !rewrite_newpassword || !verificationCode){
          return res.status(422).json({
@@ -103,7 +102,6 @@ export const resetPassword = async(req,res)=>{
             message:"passwords don't match"
         })
     }
-
 
     const userDetails = await authModel.checkIfUserActivelyExistsByEmail(email);
      if (!userDetails) {
@@ -149,28 +147,10 @@ export const resetPassword = async(req,res)=>{
         }
 
    const hash = await Hash.hashData(new_password);
-//Comparing old password with new one
-    // const validPassword = bcrypt.compareSync(new_password, userDetails.password);
-    // if (validPassword){
-    //         return res.status(409).json({
-    //             status:'error',
-    //             code:409,
-    //             message:"Conflict, you can't reuse your old password"
-    //         })
-    // }
     const Content =`Hello ${full_name}, is this you? Your Password has been reset successfully`
     await sendMail(email,'Verify Your Account', Content);
      const resetPassword = await authModel.updateUserPassword(email, verificationCode, hash);
-    // await db.one(`
-    //     UPDATE blog_users
-    //       SET updated_at = NOW(),
-    //       status = 'active',
-    //       password= $3
-    //     WHERE email = $1
-    //     RETURNING id, user_id, email, password, first_name`, [ email.trim().toLowerCase(), verificationCode, hash ])
-
-    
-
+   
     return res.status(200).json({
         status: 'success',
         code: 200,

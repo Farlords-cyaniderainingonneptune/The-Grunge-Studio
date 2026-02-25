@@ -6,9 +6,9 @@ import sendMail from '../services/email.js';
 
 export const userActivate = async(req, res)=> {
     try{
-        const userId= req.user.user_id;
-        const {action=['deactivate', 'reactivate']}= req.query;
-        const {user_id}= req.body;
+        const userId = req.user.user_id;
+        const {action = ['deactivate', 'reactivate']} = req.query;
+        const {user_id} = req.body;
         if (!action){
             return res.status(400).json({
                 status:'error',
@@ -25,14 +25,14 @@ export const userActivate = async(req, res)=> {
         }
         const superAdmin = await authModel.checkIfSuperAdmin(userId)
         if(superAdmin){
-            if(action==='deactivate'){
+            if(action === 'deactivate'){
             await adminModel.deactivateUser(user_id)
             return res.status(200).json({
                 status:'success',
                 message:'your admin account has been deactivated, kindly contact your superadmin reactivate it.'
             })
         }
-        if (action==='reactivate'){
+        if (action === 'reactivate'){
             await adminModel.reactivateUser(user_id)
             return res.status(200).json({
                 status:'success',
@@ -41,7 +41,6 @@ export const userActivate = async(req, res)=> {
         }
     }
         const actualAdmin = await authModel.checkIfActualAdmin(userId)
-
         if (!actualAdmin){
             return res.status(400).json({
                 status:'error',
@@ -50,14 +49,14 @@ export const userActivate = async(req, res)=> {
             })
         };
         if (actualAdmin){
-            if(action==='deactivate'){
+            if(action === 'deactivate'){
             await adminModel.deactivateUser(user_id)
             return res.status(200).json({
                 status:'success',
                 message:'your user account has been deactivated, kindly contact admins to reactivate it.'
             })
         }
-        if (action==='reactivate'){
+        if (action === 'reactivate'){
             await adminModel.reactivateUser(user_id)
             return res.status(200).json({
                 status:'success',
@@ -76,9 +75,9 @@ export const userActivate = async(req, res)=> {
 }
 export const suspendReinstateUser = async(req, res)=> {
     try{
-        const adminId= req.user.user_id;
-        const {action = ['suspend', 'reinstate']}= req.query;
-        const {userId}= req.body;
+        const adminId = req.user.user_id;
+        const {action = ['suspend', 'reinstate']} = req.query;
+        const {userId} = req.body;
         if (!action){
             return res.status(400).json({
                 status:'error',
@@ -96,14 +95,14 @@ export const suspendReinstateUser = async(req, res)=> {
         //superadmin control
         const superAdmin = await authModel.checkIfSuperAdmin(adminId)
         if(superAdmin){
-           if(action==='suspend'){
+           if(action === 'suspend'){
             await adminModel.suspendUser(userId)
             return res.status(200).json({
                 status:'success',
                 message:'your account has been suspended, kindly contact admin for further information.'
             })
         }
-        if (action==='reinstate'){
+        if (action === 'reinstate'){
             await adminModel.reinstateUser(userId)
             return res.status(200).json({
                 status:'success',
@@ -121,14 +120,14 @@ export const suspendReinstateUser = async(req, res)=> {
             })
         }
         if (actualAdmin){
-            if(action==='suspend'){
+            if(action === 'suspend'){
             await adminModel.suspendUser(userId)
             return res.status(200).json({
                 status:'success',
                 message:'your account has been suspended, kindly contact your admin for further information.'
             })
         }
-        if (action==='reinstate'){
+        if (action === 'reinstate'){
             await adminModel.reinstateUser(userId)
             return res.status(200).json({
                 status:'success',

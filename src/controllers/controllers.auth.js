@@ -64,11 +64,8 @@ export const register = async (req, res) => {
             message: 'username already exists'
         })
     }
-
     // hash password
     const hash = await Hash.hashData(password);
-
-    // generate unique identifier/otp
     const verificationCode = Helpers.generateVerificationCode(6);
     const verificationCodeDuration = 10; // in minutes
     const verificationCodeExpireAt = new Date(Date.now() + verificationCodeDuration * 60 * 1000);
@@ -76,20 +73,9 @@ export const register = async (req, res) => {
     //  send verification email to users
     const Content =`Hello ${full_name}, kindly verify your account using this OTP: ${verificationCode}. This OTP will expire in ${verificationCodeDuration} mins`
     await sendMail(email,'Verify Your Account', Content);
-//    await emailQueue.add({
-//      to: email,
-//      subject: 'Verify your account',
-//      first_name,
-//      verificationCode
-//    },
-//    {  delay: 36000  }
 
-//   ); 
- 
     // save to the DB
     const newUser = await authModel.createUser(req.body, hash, verificationCode, verificationCodeExpireAt);
-
-   
     return res.status(201).json({
         status: 'success',
         code: 201,
@@ -163,7 +149,6 @@ export const verifyAccount = async (req, res) => {
     await sendMail(email,'Account Verified', Content);
 
     const verifiedUser = await authModel.updateUserVerification(email);
-
     return res.status(200).json({
         status: 'success',
         code: 200,
@@ -223,7 +208,6 @@ export const resendVerificationCode = async (req, res) => {
     if (process.env.NODE_ENV === 'production') {
         delete updatedUser.verification_code;
     }
-
     return res.status(200).json({
         status: 'success',
          code: 200,

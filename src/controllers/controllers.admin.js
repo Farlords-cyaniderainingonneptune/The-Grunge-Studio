@@ -3,8 +3,6 @@ import * as adminModel from '../models/models.admin.js';
 import * as Hash from '../utils/utils.hash.js';
 import * as Helpers from '../utils/utils.helpers.js';
 import sendMail from '../services/email.js';
-// import {seedAdmin} from '../seedAdmin.js';
-// import {emailQueue} from '../config/redis/index.js';
 
 export const register = async (req, res) => {
     try{
@@ -85,8 +83,6 @@ export const register = async (req, res) => {
 
     // hash password
     const hash = await Hash.hashData(password);
-
-    // generate unique identifier/otp
     const verificationCode = Helpers.generateVerificationCode(6);
     const verificationCodeDuration = 10; // in minutes
     const verificationCodeExpireAt = new Date(Date.now() + verificationCodeDuration * 60 * 1000);
@@ -94,16 +90,6 @@ export const register = async (req, res) => {
     //  send verification email to users
     const Content =`Hello ${full_name}, kindly verify your admin account using this OTP: ${verificationCode}. This OTP will expire in ${verificationCodeDuration} mins`
     await sendMail(email,'Verify Your Account', Content);
-//    await emailQueue.add({
-//      to: email,
-//      subject: 'Verify your account',
-//      first_name,
-//      verificationCode
-//    },
-//    {  delay: 36000  }
-
-//   ); 
- 
     // save to the DB
     const newUser = await authModel.createUser(req.body, hash, verificationCode, verificationCodeExpireAt);
     return res.status(201).json({
@@ -266,9 +252,9 @@ export const Adminlogin = async (req, res) => {
 
 export const adminActivate = async(req, res)=> {
     try{
-        const userId= req.user.user_id;
-        const {action=['deactivate', 'reactivate']}= req.query;
-        const {user_id}= req.body;
+        const userId = req.user.user_id;
+        const {action = ['deactivate', 'reactivate']} = req.query;
+        const {user_id} = req.body;
         if (!action){
             return res.status(400).json({
                 status:'error',
@@ -300,14 +286,14 @@ export const adminActivate = async(req, res)=> {
                 message:'Not an admin'
             })
         }
-        if(action==='deactivate'){
+        if(action === 'deactivate'){
             await adminModel.deactivateAdmin(user_id)
             return res.status(200).json({
                 status:'success',
                 message:'your admin account has been deactivated, kindly contact your superadmin reactivate it.'
             })
         }
-        if (action==='reactivate'){
+        if (action === 'reactivate'){
             await adminModel.reactivateAdmin(user_id)
             return res.status(200).json({
                 status:'success',
@@ -324,9 +310,9 @@ export const adminActivate = async(req, res)=> {
 }
 export const suspendReinstateAdmin = async(req, res)=> {
     try{
-        const userId= req.user.user_id;
-        const {action=['suspend', 'reinstate']}= req.query;
-        const {adminId}= req.body;
+        const userId = req.user.user_id;
+        const {action = ['suspend', 'reinstate']}= req.query;
+        const {adminId} = req.body;
         if (!action){
             return res.status(400).json({
                 status:'error',
@@ -351,7 +337,7 @@ export const suspendReinstateAdmin = async(req, res)=> {
         }
         const actualAdmin = await authModel.checkIfActualAdmin(adminId)
         const wasAdmin = await authModel.checkIfWasAdmin(adminId)
-        if(action==='suspend'){
+        if(action === 'suspend'){
             if (!actualAdmin){
             return res.status(400).json({
                 status:'error',
@@ -365,7 +351,7 @@ export const suspendReinstateAdmin = async(req, res)=> {
                 message:'your admin account has been suspended, kindly contact your superadmin for further information.'
             })
         }
-        if (action==='reinstate'){
+        if (action === 'reinstate'){
             if (!wasAdmin){
             return res.status(400).json({
                 status:'error',

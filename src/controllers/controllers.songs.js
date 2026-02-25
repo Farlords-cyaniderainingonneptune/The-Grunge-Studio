@@ -2,12 +2,12 @@ import db from '../config/db/index.js';
 import * as Helpers from '../utils/utils.helpers.js'
 import * as songModel from '../models/models.songs.js';
 import * as authModel from '../models/models.auth.js';
-import * as authController from './controllers.auth.js';
-// import verifyToken from '../middlewares/middlewares.auth.js'
 
-//this allows you to view a list of songs paginated
+
+
+//this allows you to view a list of songs available in paginated format
 export const songList = async(req, res) => {
-    // console.log(redisClient)
+    
     try{
     const {query}= req;
     if(parseInt(query.per_page)> 100){
@@ -18,29 +18,13 @@ export const songList = async(req, res) => {
     });
 };
 const { offset, limit } = Helpers.paginationOffsetLimit(query);
-    // const cacheKey = 'posts:all';
-    // const cachedPosts = await redisClient.get(cacheKey);
-    // if (cachedPosts){
-    //     return res.json({
-    //         source:'cache',
-    //         data:JSON.parse(cachedPosts),
-    //         count:cachedPosts.length
-    //     });
-    // }
-    // const keys = await redisClient.keys('posts:all');
-    // if (keys.length> 0){
-    //     await redisClient.del(keys);
-    // }
+   
   const songs = await songModel.viewSongsList(offset, limit);
   const totalsongs= await songModel.songCount();
 
   const totalsongsCount = parseInt(totalsongs.count);
   const totalPages = Helpers.paginationTotalPages(totalsongsCount, limit);
-    // await redisClient.setEx(
-    //     cacheKey,
-    //     3600,
-    //     JSON.stringify(posts)
-    // );
+
   return res.status(200).json({
     status: 'success',
     message: 'Blog posts retrieved successfully',
@@ -51,7 +35,7 @@ const { offset, limit } = Helpers.paginationOffsetLimit(query);
       total_pages: parseInt(totalPages),
       songs
     },
-    // count:posts.length
+
   });
 }catch(err){
     return res.status(500).json({
@@ -105,7 +89,7 @@ export const viewSong = async(req, res)=>{
         })
 }
 }
-
+//search for songs
 export const searchSongs = async(req,res)=>{
   try{
     const {userInput}= req.query;
@@ -148,6 +132,7 @@ export const searchSongs = async(req,res)=>{
         })
 };
 };
+//Filter by genre
 export const genreFilter = async(req,res)=>{
   try{
     const {genre}= req.query;
@@ -181,7 +166,7 @@ export const genreFilter = async(req,res)=>{
         })
  };
 };
-
+// add a new song(only accessible to admin and superadmin)
 export const addSong= async(req,res)=>{
   try{
     const userId =  req.user.user_id;
@@ -218,6 +203,7 @@ export const addSong= async(req,res)=>{
         })
  };
 }
+// edit details about a song(only accesible to admin and superadmin)
 export const editSong = async(req,res)=>{
   try{
     const adminId= req.user.user_id; 
@@ -272,7 +258,7 @@ export const editSong = async(req,res)=>{
             message: `Song could not be updated`
         })
     }
-    return res.status(500).json({
+    return res.status(200).json({
             status: 'error',
             code: 500,
             message:`${song_title} updated successfully.`,
@@ -286,6 +272,7 @@ export const editSong = async(req,res)=>{
         })
  }
 }
+// delete song
 export const deleteSong = async(req,res)=>{
   try{
     const adminId= req.user.user_id; 
@@ -300,13 +287,6 @@ export const deleteSong = async(req,res)=>{
                 message:'Not an admin'
             })
      }
-    //  if(!song_id){
-    //    return res.status(401).json({
-    //     status:'error',
-    //     code:401,
-    //     message:'No id inputed'
-    //   });
-    // }
     const songExists= await songModel.songExistsById(song_id);
     if(!songExists){
        return res.status(401).json({
