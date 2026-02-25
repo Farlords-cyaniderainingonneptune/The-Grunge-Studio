@@ -75,6 +75,7 @@ export const viewSong = async(req, res)=>{
       });
     }
     const viewSong= await songModel.viewSong(song_id)
+    const updateView = await songModel.updateView(song_id)
      return res.status(200).json({
         status:'success',
         code:200,

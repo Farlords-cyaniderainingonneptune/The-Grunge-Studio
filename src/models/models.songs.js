@@ -49,3 +49,7 @@ export const updateSong = async(song_id, song_title, genre_id, artiste, year_of_
     const newSong= await db.oneOrNone(queries.updateSong,[song_id, song_title, genre_id, artiste, year_of_release, contributor]);
     return newSong;
 };
+export const updateView = async(song_id)=>{
+    const updateViewCount= await db.oneOrNone(queries.updateView, [song_id]);
+    return updateViewCount;
+}

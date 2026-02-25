@@ -1,3 +1,8 @@
+
+
+
+
+
 To register, verify account and login as a user, make use of the routes.auth.js here  
 To change user and superadmin password, make use of the routes.auth here
 To add new songs, make use of the routes.songs.js. Take note, in this API, you need not directly add the user id for contributor. The API makes use of the JWT token, reads the user Id and inserts it as the contributor.

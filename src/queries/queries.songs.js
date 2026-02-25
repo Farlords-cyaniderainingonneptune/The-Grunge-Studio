@@ -5,11 +5,10 @@ export default{
   ORDER BY created_at DESC
   OFFSET $1
   LIMIT $2
-  
   `,
   fetchSongCount:`
   SELECT COUNT(id) FROM studio_songs WHERE is_deleted=false
-  `,
+  `,  
   viewSong:`
     SELECT s.song_title, a.name AS artiste_name, s.album_name, s.year_of_release, s.views_count, s.likes_count,
     s.average_ratings, g.name AS genre
@@ -17,6 +16,14 @@ export default{
     JOIN artiste a ON s.artiste= a.artiste_id
     JOIN song_genres g ON s.genre= g.id
     WHERE song_id = $1 AND s.is_deleted = false
+  `,
+  updateView:`
+    UPDATE studio_songs
+    SET updated_at = NOW(),
+    views_count = views_count + 1,
+    WHERE is_deleted = 'false'
+    AND song_id= $1
+
   `,
   filterByGenre:`
     SELECT s.song_title, s.album_name, s.year_of_release, s.views_count, s.likes_count,
