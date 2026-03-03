@@ -12,15 +12,15 @@ export default{
     AND rs.is_deleted = false
     `,
     commentExistsById:`
-    SELECT * FROM review_comments
+    SELECT review_id, comment, likes_count FROM review_comments
     WHERE comment_id = $1
     `,
     commentExistsByUserId: `
-    SELECT * FROM review_comments
+    SELECT user_id, review_id, comment, likes_count FROM review_comments
     WHERE user_id = $1
     `,
     commentExistsByReview: `
-    SELECT * FROM review_comments
+    SELECT user_id, review_id, comment, likes_count FROM review_comments
     WHERE review_id = $1
     `,
     editComment: `
@@ -34,9 +34,38 @@ export default{
     WHERE comment_id = $1 AND user_id = $2
     `,
 
-    review_song: `
-    INSERT INTO song_reviews (review_content, song_id, ratings)
-    VALUES ($1, $2, $3)
+    reviewSong: `
+    INSERT INTO song_reviews (review_content, ratings)
+    VALUES ($1, $2,)
     RETURNING user_id, song_id, ratings, review_content, created_at
+    `,
+    editReview:`
+    UPDATE song_reviews
+    SET updated_at = NOW(),
+    review_content = $3,
+    ratings = $4
+    WHERE review_id = $1 AND user_id = $2
+    `,
+    reviewExistsByUserId:`
+    SELECT review_id, song_id, review_content, ratings FROM song_reviews
+    WHERE user_id = $1
+    `,
+    reviewExistsBySong:`
+    SELECT review_id, song_id, review_content, ratings FROM song_reviews
+    WHERE song_id = $1
+    `,
+    reviewExistsById:`
+    SELECT review_id, song_id, review_content, ratings FROM song_reviews
+    WHERE review_id = $1
+    `,
+    getComments:`
+    SELECT * FROM review_comments
+    WHERE is_deleted = false
+    ORDER BY created_at DESC
+    OFFSET $1
+    LIMIT $2
+    `,
+    commentCount:`
+    SELECT COUNT(id) FROM review_comments WHERE is_deleted=false
     `
 }

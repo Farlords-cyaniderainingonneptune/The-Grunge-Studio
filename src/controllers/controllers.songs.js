@@ -3,8 +3,6 @@ import * as Helpers from '../utils/utils.helpers.js'
 import * as songModel from '../models/models.songs.js';
 import * as authModel from '../models/models.auth.js';
 
-
-
 //this allows you to view a list of songs available in paginated format
 export const songList = async(req, res) => {
     

@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import * as songController from '../controllers/controllers.songs.js';
 import * as authMiddleware from '../middlewares/middlewares.auth.js';
+import * as likesController from '../controllers/controllers.likes_ratings.js'
+
 const router = Router();
 
 router.get('/all',
@@ -20,11 +22,19 @@ router.post('/new_song',
     authMiddleware.verifyToken,
     songController.addSong
 );
-router.patch('/song/:song_id',
+app.post('/:song_id/like',
+    authMiddleware.verifyToken,
+    likesController.likeUnlike
+);
+app.post('/:song_id/rate',
+    authMiddleware.verifyToken,
+    likesController.rateSong
+);
+router.patch('/:song_id',
     authMiddleware.verifyToken,
     songController.editSong
 );
-router.delete('/song/:song_id',
+router.delete('/:song_id',
     authMiddleware.verifyToken,
     songController.deleteSong
 );
