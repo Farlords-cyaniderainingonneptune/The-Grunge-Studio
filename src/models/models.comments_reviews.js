@@ -30,7 +30,7 @@ export const deleteComment = async(comment_id, user_id)=>{
     return comment;
 };
 
-export const reviewSong = async(review_content, ratings)=>{
+export const reviewSong = async(song_id, user_id, review_content, ratings)=>{
     const review = await db.oneOrNone(queries.reviewSong,[review_content, ratings]);
     return review;
 };

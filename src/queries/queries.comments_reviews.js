@@ -35,8 +35,8 @@ export default{
     `,
 
     reviewSong: `
-    INSERT INTO song_reviews (review_content, ratings)
-    VALUES ($1, $2,)
+    INSERT INTO song_reviews (song_id, user_id, review_content, ratings)
+    VALUES ($1, $2, $3, $4)
     RETURNING user_id, song_id, ratings, review_content, created_at
     `,
     editReview:`

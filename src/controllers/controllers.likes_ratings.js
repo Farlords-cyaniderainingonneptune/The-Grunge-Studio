@@ -58,7 +58,27 @@ export const likeUnlike = async(req, res)=>{
 }
 export const rateSong = async(req,res)=>{
     try{
-
+        const songId = req.params.song_id
+        const rating = req.query
+        const userId = req.user.user_id;
+        
+        const userExists= await authModel.checkIfUserActivelyExistsByUserId(userId);
+            if(!userExists){
+              return res.status(401).json({
+                status:'error',
+                code:401,
+                message:'user does not exist'
+              });
+            };
+            const songExists= await songModel.songExistsById(songId);
+            if(!songExists){
+               return res.status(401).json({
+                status:'error',
+                code:401,
+                message:'song does not exist'
+              });
+            }
+         
     }catch(err){
         return res.status(500).json({
             status: 'error',

@@ -6,12 +6,12 @@ import * as likesController from '../controllers/controllers.likes_ratings.js';
 // import * as passwordController from '../controllers/controllers.password.js';
 const router = Router();
 
-router.post('/:song_id/comment',
+router.post('/:review_id/comment',
     authMiddleware.verifyToken,
     commentsController.commentSong);
 router.post('/:song_id/review',
     authMiddleware.verifyToken,
-    commentsController.Review
+    commentsController.review
 );
 router.post('/:review_id/comment',
     authMiddleware.verifyToken,

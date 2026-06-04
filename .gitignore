@@ -5,5 +5,5 @@ node_modules/
 .env
 
 # Temporary Uploads
-# src/mediaUpload/*
-# !src/mediaUpload/.gitkeep
+src/mediaUpload/*
+!src/mediaUpload/.gitkeep
