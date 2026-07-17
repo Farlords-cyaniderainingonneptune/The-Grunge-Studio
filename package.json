@@ -13,8 +13,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-   
-    "test":"",
+    "test": "mocha \"test/**/*.js\" --exit",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "seedAdmin": "node src/seedAdmin.js",
@@ -32,18 +31,18 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
+    "http-status": "^1.7.0",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "nodemailer": "^8.0.1",
     "nodemon": "^3.1.11",
     "pg-promise": "^12.6.1",
     "router": "^2.2.0",
-    "uuid": "^13.0.0",
-    "http-status": "^1.7.0"
+    "uuid": "^13.0.0"
   },
-   "devDependencies": {
-    
-    
-
-} 
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.8.2"
+  }
 }

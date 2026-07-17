@@ -22,11 +22,11 @@ router.post('/new_song',
     authMiddleware.verifyToken,
     songController.addSong
 );
-app.post('/:song_id/like',
+router.post('/:song_id/like',
     authMiddleware.verifyToken,
     likesController.likeUnlike
 );
-app.post('/:song_id/rate',
+router.post('/:song_id/rate',
     authMiddleware.verifyToken,
     likesController.rateSong
 );
