@@ -12,7 +12,7 @@ export default{
     AND rs.is_deleted = false
     `,
     commentExistsById:`
-    SELECT review_id, comment, likes_count FROM review_comments
+    SELECT comment_id, review_id, user_id, comment, likes_count, is_deleted FROM review_comments
     WHERE comment_id = $1
     `,
     commentExistsByUserId: `
@@ -28,10 +28,12 @@ export default{
      SET updated_at = NOW(),
      comment = $3
      WHERE comment_id = $1 AND user_id = $2
+        RETURNING comment_id, review_id, user_id, comment, updated_at
     `,
-    deleteComment:`
-    DELETE comment from review_comments
-    WHERE comment_id = $1 AND user_id = $2
+        deleteComment:`
+        DELETE FROM review_comments
+        WHERE comment_id = $1 AND user_id = $2
+        RETURNING comment_id, review_id, user_id
     `,
 
     reviewSong: `
@@ -45,6 +47,7 @@ export default{
     review_content = $3,
     ratings = $4
     WHERE review_id = $1 AND user_id = $2
+    RETURNING review_id, song_id, user_id, review_content, ratings, updated_at
     `,
     reviewExistsByUserId:`
     SELECT review_id, song_id, review_content, ratings FROM song_reviews
@@ -66,6 +69,6 @@ export default{
     LIMIT $2
     `,
     commentCount:`
-    SELECT COUNT(id) FROM review_comments WHERE is_deleted=false
+    SELECT COUNT(comment_id) FROM review_comments WHERE is_deleted=false
     `
 }

@@ -9,18 +9,18 @@ const router = Router();
 router.post('/:review_id/comment',
     authMiddleware.verifyToken,
     commentsController.commentSong);
-router.post('/:song_id/review',
-    authMiddleware.verifyToken,
-    commentsController.review
-);
-router.post('/:review_id/comment',
-    authMiddleware.verifyToken,
-    commentsController.commentReview
-);
-router.post('/:comment_id/comment',
-    authMiddleware.verifyToken,
-    commentsController.commentComment
-);
+// router.post('/:song_id/review',
+//     authMiddleware.verifyToken,
+//     commentsController.review
+// );
+// router.post('/:review_id/comment',
+//     authMiddleware.verifyToken,
+//     commentsController.commentReview
+// );
+// router.post('/:comment_id/comment',
+//     authMiddleware.verifyToken,
+//     commentsController.commentComment
+// );
 router.post('/:review_id/like',
     authMiddleware.verifyToken,
     likesController.likeUnlike
@@ -29,20 +29,20 @@ router.post('/:comment_id/like',
     authMiddleware.verifyToken,
     likesController.likeUnlike
 );
-router.patch('/:review_id',
-    authMiddleware.verifyToken,
-    commentsController.editReview
-);
-router.get('/comments',
-    commentsController.getComments
-);
-router.patch('/:comment_id',
-    authMiddleware.verifyToken,
-    commentsController.editComment
-)
-router.delete('/:comment_id',
-    authMiddleware.verifyToken,
-    commentsController.deleteComment
-);
+// router.patch('/:review_id',
+//     authMiddleware.verifyToken,
+//     commentsController.editReview
+// );
+// router.get('/comments',
+//     commentsController.getComments
+// );
+// router.patch('/:comment_id',
+//     authMiddleware.verifyToken,
+//     commentsController.editComment
+// )
+// router.delete('/:comment_id',
+//     authMiddleware.verifyToken,
+//     commentsController.deleteComment
+// );
 export default router;
 

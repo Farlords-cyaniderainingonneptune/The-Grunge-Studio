@@ -21,8 +21,8 @@ export const commentExistsByReview = async(review_id)=>{
     const commentExists = await db.oneOrNone(queries.commentExistsByReview,[review_id]);
     return commentExists;
 };
-export const editComment = async(comment_id, user_id, comment)=>{
-    const comment = await db.oneOrNone(queries.editComment,[comment_id, user_id, comment]);
+export const editComment = async(comment_id, user_id, comments)=>{
+    const comment = await db.oneOrNone(queries.editComment,[comment_id, user_id, comments]);
     return comment;
 };
 export const deleteComment = async(comment_id, user_id)=>{
@@ -31,7 +31,7 @@ export const deleteComment = async(comment_id, user_id)=>{
 };
 
 export const reviewSong = async(song_id, user_id, review_content, ratings)=>{
-    const review = await db.oneOrNone(queries.reviewSong,[review_content, ratings]);
+    const review = await db.oneOrNone(queries.reviewSong,[song_id, user_id, review_content, ratings]);
     return review;
 };
 export const editReview = async(review_id, user_id, review_content, ratings )=>{
