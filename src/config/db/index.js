@@ -4,7 +4,7 @@ const pg = pgp({ noWarnings: true });
 
 const cn = {
   connectionString: process.env.DATABASE_URL,
-  max: 1000
+  max: 10
 };
 
 const db = pg(cn);

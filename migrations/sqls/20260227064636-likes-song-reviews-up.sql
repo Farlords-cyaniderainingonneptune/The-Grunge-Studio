@@ -1,2 +1,2 @@
 ALTER TABLE song_reviews
-ADD COLUMN likes_count INT DEFAULT 0;
+ADD COLUMN IF NOT EXISTS likes_count INT DEFAULT 0;
