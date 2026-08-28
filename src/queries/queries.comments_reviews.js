@@ -39,27 +39,27 @@ export default{
     reviewSong: `
     INSERT INTO song_reviews (song_id, user_id, review_content, ratings)
     VALUES ($1, $2, $3, $4)
-    RETURNING user_id, song_id, ratings, review_content, created_at
+    RETURNING id AS review_id, user_id, song_id, ratings, review_content, created_at
     `,
     editReview:`
     UPDATE song_reviews
     SET updated_at = NOW(),
     review_content = $3,
     ratings = $4
-    WHERE review_id = $1 AND user_id = $2
-    RETURNING review_id, song_id, user_id, review_content, ratings, updated_at
+    WHERE id = $1 AND user_id = $2
+    RETURNING id AS review_id, song_id, user_id, review_content, ratings, updated_at
     `,
     reviewExistsByUserId:`
-    SELECT review_id, song_id, review_content, ratings FROM song_reviews
+    SELECT id AS review_id, song_id, user_id, review_content, ratings FROM song_reviews
     WHERE user_id = $1
     `,
     reviewExistsBySong:`
-    SELECT review_id, song_id, review_content, ratings FROM song_reviews
+    SELECT id AS review_id, song_id, user_id, review_content, ratings FROM song_reviews
     WHERE song_id = $1
     `,
     reviewExistsById:`
-    SELECT review_id, song_id, review_content, ratings FROM song_reviews
-    WHERE review_id = $1
+    SELECT id AS review_id, song_id, user_id, review_content, ratings FROM song_reviews
+    WHERE id = $1
     `,
     getComments:`
     SELECT * FROM review_comments
