@@ -42,6 +42,9 @@ A full-featured music platform API built with Node.js and Express that allows us
 - **Server Security**: Helmet, CORS, compression
 - **Development**: Nodemon
 
+## Documentation
+- [Postman Documentation](https://farlodunolusege-1104561.postman.co/workspace/Farlodun-olusegun's-Workspace~e29527d5-53ca-4470-817e-b4308ff88c2f/collection/50548576-344748b3-ea10-4343-b02b-c3185d4171cd?action=share&creator=50548576)
+
 ## 📦 Installation
 
 ### Prerequisites
