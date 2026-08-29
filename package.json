@@ -16,9 +16,10 @@
     "test": "mocha \"test/**/*.js\" --exit",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "build":"npm install && npm run migrate",
     "seedAdmin": "node src/seedAdmin.js",
-    "migrate:create": "db-migrate create"
+    "migrate:create": "db-migrate create",
+     "migrate:up": "db-migrate up",
+    "migrate:down": "db-migrate down"
   },
   "dependencies": {
     "@joi/date": "^2.1.1",
