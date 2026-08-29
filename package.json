@@ -18,8 +18,7 @@
     "dev": "nodemon src/app.js",
     "seedAdmin": "node src/seedAdmin.js",
     "migrate:create": "db-migrate create",
-     "migrate:up": "db-migrate up",
-    "migrate:down": "db-migrate down"
+     "migrate": "db-migrate up"
   },
   "dependencies": {
     "@joi/date": "^2.1.1",
