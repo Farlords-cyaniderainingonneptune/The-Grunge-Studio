@@ -20,7 +20,7 @@
     "migrate": "db-migrate up -e production",
     "migrate:down": "db-migrate down -e production",
     "seedAdmin": "node src/seedAdmin.js",
-    "migrate:create": "db-migrate create",
+    "migrate:create": "db-migrate create"
   },
   "dependencies": {
     "@joi/date": "^2.1.1",
