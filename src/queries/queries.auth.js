@@ -22,7 +22,7 @@ export default {
         WHERE (user_name = $1 OR email = $2) 
         AND is_deleted = FALSE`,
     checkIfUserActivelyExistsByUserId: 'SELECT id, user_id, email, user_name, full_name, is_verified_account, status, created_at FROM studio_users WHERE user_id = $1 AND is_deleted = FALSE',
-    userPassword: 'SELECT id, user_id, password FROM studio_users WHERE user_id = $1',
+    userPassword: `SELECT id, user_id, password FROM studio_users WHERE user_id = $1` ,
     updateUserOnLogin: 'UPDATE studio_users SET updated_at = NOW(), last_login_at = NOW() WHERE user_id = $1',
     updateAdminOnLogin: `UPDATE studio_users SET updated_at = NOW(), last_login_at = NOW(), status= 'active', role='admin', current_roles= 'admin' WHERE user_id = $1`,
     updateUserPassword:`

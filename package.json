@@ -16,7 +16,7 @@
     "test": "mocha \"test/**/*.js\" --exit",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "build": "echo 'No build step required'",
+    "build": "node src/config/db/index.js",
     "seedAdmin": "node src/seedAdmin.js",
     "migrate:create": "db-migrate create"
   },
