@@ -165,6 +165,7 @@ export const verifyAccount = async (req, res) => {
 };
 
 export const resendVerificationCode = async (req, res) => {
+    try{
     const { email } = req.body;
 
     if (!email) {
@@ -214,11 +215,18 @@ export const resendVerificationCode = async (req, res) => {
          message: 'Verification code resent successfully',
          data: updatedUser
     })
+    }catch(err){
+        return res.status(500).json({
+            status: 'error',
+            code: 500,
+            message: err.message
+        })
+    }
 };
 
 export const login = async (req, res) => {
+    try{
     const { username, password } = req.body
-
     if (!username || !password) {
         return res.status(422).json({
             status: 'error',
@@ -265,4 +273,11 @@ export const login = async (req, res) => {
          message: 'User logged in successfully',
          data: { ...userExists, token }
     })
+    }catch(err){
+        return res.status(500).json({
+            status: 'error',
+            code: 500,
+            message: err.message
+        })
+    }
 };
