@@ -331,7 +331,7 @@ export const editComment = async (req, res) => {
             message:error.message
         })
     }
-}
+};
 
 // delete a comment (only the owner of the comment can delete it)
 export const deleteComment = async (req, res) => {
