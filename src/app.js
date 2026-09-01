@@ -52,6 +52,6 @@ app.use((_req, res) => {
 const HOST = '0.0.0.0'
 const port = process.env.PORT || 3000;
 app.listen(port, HOST, () => {
-  console.log(`Server is running on http://${HOST} ${port}`)
+  console.log(`Server is running on http://${HOST}/${port}`)
 });
 export default app;
