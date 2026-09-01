@@ -8,7 +8,7 @@ import transporter from '../config/email/index.js';
   const emailInfo = {
     from: {
         name:'Grunge Studio',
-        email:process.env.NODEMAILER_USER
+        email:process.env.SMTP_USER
     },
     to: email.trim().toLowerCase(),
     subject: subject,
