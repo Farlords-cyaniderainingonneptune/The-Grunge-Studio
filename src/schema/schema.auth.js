@@ -4,8 +4,8 @@ const Joi = BaseJoi.extend(JoiDate);
 
 const signUp = Joi.object().keys({
     email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
-    full_name: Joi.string().regex(/^[a-zA-Z-]+$/).messages({
-    'string.pattern.base': 'Invalid first name input, should be one word'
+    full_name: Joi.string().regex(/^[a-zA-Z\s-]+$/).messages({
+    'string.pattern.base': 'Invalid full_name combination, only letters and hyphens are allowed'
   }).required().min(3),
     username: Joi.string().required().min(3),
     password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/).messages({
