@@ -2,11 +2,14 @@
 # 🎵 Grunge Studio
 
 A full-featured music platform API built with Node.js and Express that allows users to discover, upload, rate, and review songs. Grunge Studio provides comprehensive song management, user authentication, and admin controls.
+## Render Deployment
+- (https://api-grunge-studio.onrender.com)
 
 ## 📋 Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Documentation](#documentation)
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
