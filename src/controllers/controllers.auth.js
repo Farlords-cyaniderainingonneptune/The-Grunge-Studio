@@ -7,7 +7,6 @@ import sendMail from '../services/email.js';
 export const register = async (req, res) => {
     try{
    const { email, password, username, full_name } = req.body
-   console.log(req.body)
     if (!email || !username || !password || !full_name) {
         return res.status(422).json({
             status: 'error',
@@ -15,7 +14,6 @@ export const register = async (req, res) => {
             message: 'email, username, password and first_name are required'
         });
     }
-    
 
     if (email && !email.includes('@')) {
         return res.status(422).json({
@@ -24,30 +22,6 @@ export const register = async (req, res) => {
             message: 'email is invalid'
         })
     };
-    if (password.length < 10) {
-        return res.status(422).json({
-            status: 'error',
-            code: 422,
-            message: 'password length should not be less than 10'
-        })
-    }
-
-    if (!/[A-Z]/g.test(password) || !/[a-z]/g.test(password) || !/[0-9]/g.test(password) || !/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/g.test(password)) {
-        return res.status(422).json({
-            status: 'error',
-            code: 422,
-            message: 'password should contain at least one uppercase, lowercase, number and special character'
-        })
-    }
-
-    if (username.length < 3 || full_name.length < 3) {
-        return res.status(422).json({
-            status: 'error',
-            code: 422,
-            message: 'username, first_name and last_name should not be less than 3 characters'
-        })
-    }
-
     const existingEmail = await authModel.checkUserExistsByEmail(email);
     if (existingEmail) {
         return res.status(409).json({
