@@ -54,4 +54,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, HOST, () => {
   console.log(`Server is running on http://${HOST}/${port}`)
 });
+// const port = process.env.PORT;
+// app.listen(port, () => {
+//   console.log(`Server is running on port: ${port}`)
+// });
 export default app;

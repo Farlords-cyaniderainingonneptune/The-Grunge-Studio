@@ -14,11 +14,15 @@
 import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
-  port: Number(process.env.SMTP_PORT) || 2525,
-  secure: false, // Must be false for port 2525
+  // port: Number(process.env.SMTP_PORT) || 465,
+  port: Number(process.env.SMTP_PORT) || 465,
+  secure: true, // Must be true for port 465
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.SMTP_USER?.trim(),
+    pass: process.env.SMTP_PASS?.trim()
+  },
+  tls: {
+    rejectUnauthorized: false, // Helps bypass local self-signed cert issues
   },
   // Prevents the request from hanging forever if port 2525 drops connection
   connectionTimeout: 10000, 
